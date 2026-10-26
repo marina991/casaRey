@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Casa Rey · Escape room de ciberseguridad</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;900&family=Rajdhani:wght@500;600&display=swap" rel="stylesheet">
+<style>
+:root{color-scheme:dark;--bg:#07040f;--pa:#100826;--cy:#00f0ff;--mg:#ff2bd6;--vi:#7a3cff;--ok:#39ff88;--bad:#ff3860;--tx:#e8e2ff;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+*,*::before,*::after{box-sizing:inherit}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;min-height:100vh;color:var(--tx);font:500 18px/1.5 Rajdhani,"Segoe UI",sans-serif;background:linear-gradient(rgba(7,4,15,.3),rgba(7,4,15,.55)) fixed,url(img/escenario.jpg) center/cover fixed,radial-gradient(ellipse at 50% -10%,#2a0f5e 0,var(--bg) 60%) fixed;overflow-x:hidden}
+body::before{content:"";position:fixed;inset:0;pointer-events:none;background:linear-gradient(rgba(122,60,255,.07) 1px,transparent 1px) 0 0/100% 34px,linear-gradient(90deg,rgba(122,60,255,.07) 1px,transparent 1px) 0 0/34px 100%}
+#fl{position:fixed;inset:0;z-index:8;pointer-events:none;opacity:0}
+#fl.ok{background:rgba(57,255,136,.2);animation:fl .6s}
+#fl.no{background:rgba(255,56,96,.3);animation:fl .6s}
+@keyframes fl{0%{opacity:1}100%{opacity:0}}
+h1,h2,.o{font-family:Orbitron,Impact,sans-serif}
+.w{position:relative;max-width:760px;margin:0 auto;padding:0 18px 50px}
+.hide{display:none!important}
+h1{font-size:clamp(38px,12vw,76px);line-height:1;margin:0 0 14px;font-weight:900;color:#fff;text-shadow:0 0 10px var(--vi),0 0 30px var(--mg),3px 0 var(--cy);animation:gl 4s infinite}
+@keyframes gl{0%,92%,100%{transform:none}93%{transform:translateX(-5px) skewX(6deg)}95%{transform:translateX(5px)}97%{transform:translateX(-2px)}}
+button{font:600 16px Orbitron,sans-serif;color:var(--bg);background:var(--cy);border:0;padding:12px 18px;border-radius:4px;cursor:pointer;box-shadow:0 0 16px var(--cy);min-height:46px}
+button:hover{background:#fff}
+button.mg{background:var(--mg);box-shadow:0 0 16px var(--mg)}
+:focus-visible{outline:3px solid #fff;outline-offset:3px}
+.hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center}
+.eco{display:flex;gap:14px;align-items:flex-start;border-left:3px solid var(--mg);background:rgba(255,43,214,.06);padding:12px 14px;margin:16px 0;border-radius:0 8px 8px 0}
+.eco img.hk{flex:none;width:96px;height:auto;filter:drop-shadow(0 0 6px var(--mg));animation:gl 3s infinite}
+#cover{position:fixed;inset:0;z-index:0;background:linear-gradient(rgba(7,4,15,.25),rgba(7,4,15,.8)),url(img/portada.jpg) center/cover no-repeat}
+.eco svg{flex:none;width:72px;filter:drop-shadow(0 0 6px var(--mg));animation:gl 3s infinite}
+.eco p{margin:0;color:#ffd1f6;min-height:3em}
+.bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:3;background:rgba(7,4,15,.94);border-bottom:1px solid var(--vi);padding:10px 18px;display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;font:14px Orbitron,sans-serif}
+.bar b{color:var(--cy);text-shadow:0 0 10px var(--cy)}
+.bar button{min-height:34px;padding:6px 12px;font-size:12px}
+.pn{background:linear-gradient(160deg,var(--pa),#150a33);border:1px solid var(--vi);border-radius:8px;padding:20px;margin:14px 0;box-shadow:0 0 24px rgba(122,60,255,.35)}
+.pn h2{font-size:18px;color:var(--cy);margin:0 0 8px;text-shadow:0 0 12px rgba(0,240,255,.6)}
+input[type=text]{width:100%;font:600 20px "Courier New",monospace;color:var(--cy);background:#000;border:2px solid var(--cy);border-radius:4px;padding:12px;margin:8px 0}
+.msg{font:500 16px/1.5 "Courier New",monospace;background:#000;border-left:4px solid var(--mg);padding:14px;margin:10px 0;word-break:break-word;white-space:pre-wrap}
+.op{display:block;width:100%;margin:8px 0;text-align:left;background:#000;color:var(--cy);border:1px solid var(--cy);box-shadow:none;font:600 17px Rajdhani,sans-serif}
+.op:hover{background:#1a0a3a}
+.op:disabled{opacity:.35}
+.row{display:flex;gap:10px;flex-wrap:wrap}
+.fb{margin-top:14px;padding:14px;border-radius:6px;border:2px solid;font-weight:600}
+.fb.ok{border-color:var(--ok);color:var(--ok);background:rgba(57,255,136,.08)}
+.fb.no{border-color:var(--bad);color:var(--bad);background:rgba(255,56,96,.1)}
+.chip{display:inline-block;margin:3px 4px 0 0;padding:2px 10px;border:1px solid var(--ok);border-radius:12px;color:var(--ok);font-size:14px}
+.time{font:900 clamp(22px,6vw,34px)/1.1 Orbitron,sans-serif}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div id="fl"></div>
+
+<div id="cover"></div>
+<div class="w" id="intro">
+<div class="hero">
+<h1>CASA<br>REY</h1>
+<p>Escape room de ciberseguridad. Una casa inteligente, un intruso y 60 minutos.</p>
+<div class="eco"><svg viewBox="0 0 60 60" aria-hidden="true"><circle cx="30" cy="20" r="10" fill="none" stroke="#ff2bd6" stroke-width="2"/><path d="M8 56c2-16 12-22 22-22s20 6 22 22" fill="none" stroke="#ff2bd6" stroke-width="2"/><path d="M24 20h12" stroke="#00f0ff" stroke-width="2"/></svg><p id="ei"></p></div>
+<div><button id="go" class="hide mg">ENTRAR A LA CASA</button></div>
+</div>
+</div>
+
+<div id="game" class="hide">
+<div class="bar"><span>TIEMPO <b id="tm">60:00</b></span><span id="rm"></span><button id="mt">SONIDO: SÍ</button></div>
+<div class="w">
+<div class="eco"><svg viewBox="0 0 60 60" aria-hidden="true"><circle cx="30" cy="20" r="10" fill="none" stroke="#ff2bd6" stroke-width="2"/><path d="M8 56c2-16 12-22 22-22s20 6 22 22" fill="none" stroke="#ff2bd6" stroke-width="2"/><path d="M24 20h12" stroke="#00f0ff" stroke-width="2"/></svg><p id="ec"></p></div>
+<div class="pn" id="pz"></div>
+<div id="inv"></div>
+</div>
+</div>
+
+<script>
+(function(){
+var $=function(i){return document.getElementById(i)};
+var reduce=matchMedia('(prefers-reduced-motion:reduce)').matches;
+var AC=null,mute=false;
+function snd(f,d,t,v){if(mute||!AC)return;try{var o=AC.createOscillator(),g=AC.createGain();o.type=t||'square';o.frequency.value=f;g.gain.value=v||.04;o.connect(g);g.connect(AC.destination);o.start();g.gain.exponentialRampToValueAtTime(.0001,AC.currentTime+d);o.stop(AC.currentTime+d)}catch(e){}}
+function good(){snd(660,.12);setTimeout(function(){snd(880,.12)},110);setTimeout(function(){snd(1320,.3)},220)}
+function bad(){snd(110,.4,'sawtooth',.08)}
+function tick(){snd(1800+Math.random()*500,.03,'square',.015)}
+function flash(c){var f=$('fl');f.className='';void f.offsetWidth;f.className=c}
+var T={};
+function type(id,t,cb){clearInterval(T[id]);var el=$(id);if(reduce){el.textContent=t;if(cb)cb();return}el.textContent='';var i=0;T[id]=setInterval(function(){el.textContent=t.slice(0,++i);if(i%3===0)tick();if(i>=t.length){clearInterval(T[id]);if(cb)cb()}},22)}
+function nz(s){return s.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').trim()}
+$('mt').onclick=function(){mute=!mute;this.textContent='SONIDO: '+(mute?'NO':'SÍ')};
+
+var HK='<svg viewBox="0 0 80 72" aria-hidden="true"><path d="M40 4C23 4 14 18 16 34C9 40 5 52 3 68H77C75 52 71 40 64 34C66 18 57 4 40 4Z" fill="#0a0615" stroke="#ff2bd6" stroke-width="2"/><ellipse cx="40" cy="31" rx="12" ry="14" fill="#000"/><rect x="18" y="52" width="44" height="16" rx="2" fill="#0a0615" stroke="#00f0ff" stroke-width="2"/><circle cx="40" cy="60" r="3" fill="#00f0ff"/></svg>';
+document.querySelectorAll('.eco svg').forEach(function(s){var i=new Image();i.alt='Eco, el hacker';i.className='hk';i.onerror=function(){i.outerHTML=HK};i.src='img/silueta.png';s.replaceWith(i)});
+/* intro */
+type('ei','Hola, familia Rey. Mientras dormían, entré a su casa. Las puertas están cerradas y las cámaras apagadas. En 60 minutos borro todo. Intentá salir, Lía. Me divertiría ver cómo lo intentás.',function(){$('go').classList.remove('hide')});
+
+/* habitaciones */
+var R=[
+{n:'Living · Router y Wi-Fi',P:[
+{k:'ch',s:'La puerta no abre. Junto a ella hay un router con una etiqueta pegada: usuario admin, clave admin.',q:'¿Qué hacés primero?',o:['Cambiar la clave de fábrica','Dejarla, es fácil de recordar','Pegar la etiqueta más grande'],c:0,h:'Todos los routers de ese modelo vienen con la misma clave.',l:'Las claves de fábrica son públicas. Cambiarlas es lo primero.',rw:'Llave del router',ec:'Cambiaste la clave. Qué tierna. Todavía me quedan trucos.'},
+{k:'sw',s:'El panel del router tiene cuatro interruptores. Dejalos como corresponde y aplicá.',sw:[['WPS (conexión rápida por botón)',0],['Cifrado WPA2 o WPA3',1],['Red de invitados para visitas',1],['Administración remota desde internet',0]],h:'Apagá lo que deja entrar desde afuera y encendé lo que cifra.',l:'WPS y la administración remota son puertas abiertas. El cifrado protege el Wi-Fi y la red de invitados separa a las visitas.',rw:'Escudo Wi-Fi',ec:'Mi puerta trasera… la cerraste. Me estás cayendo bien.'},
+{k:'ch',s:'La pantalla muestra los dispositivos conectados al Wi-Fi.',q:'Uno no pertenece a la familia. ¿Cuál es?',o:['Notebook-Ana','Celular-Tomás','SmartTV-Sala','Impresora-Oficina','HACK-NODE-77'],c:4,h:'Mirá el nombre que nadie le pondría a un aparato.',l:'Revisar los dispositivos conectados es la forma más rápida de detectar a un intruso.',rw:'Lista de dispositivos',ec:'Me encontraste. Pero no soy el único que miraba.'},
+{k:'in',s:'El registro del router muestra 47 intentos de entrar con claves distintas, desde la misma dirección, en un minuto.',q:'¿Cómo se llama este ataque? (dos palabras)',a:['fuerza bruta'],h:'Se prueba una clave tras otra hasta acertar, con fuerza y sin inteligencia.',l:'La fuerza bruta prueba miles de claves. Una clave larga y el bloqueo tras varios intentos la frenan.',rw:'Llave del living',ec:'La puerta se abrió. Corré. Esto recién empieza.'}]},
+{n:'Cocina · Aparatos conectados',P:[
+{k:'ch',s:'La heladera inteligente muestra un aviso: “Actualización disponible”. Eco entró por ahí.',q:'¿Por qué conviene actualizar?',o:['Tapa fallas de seguridad','Cambia el color de la pantalla','Gasta menos luz'],c:0,h:'Los fabricantes corrigen agujeros con cada versión.',l:'Las actualizaciones cierran agujeros conocidos. Sin ellas, los aparatos viejos son blanco fácil.',rw:'Parche de seguridad',ec:'Una heladera. Subestimada, lo admito.'},
+{k:'or',s:'Hay que conectar un horno nuevo a la casa sin abrir puertas.',q:'Tocá los pasos en orden:',o:['Cambiar la clave de fábrica','Actualizar el software','Conectarlo a la red de invitados','Activar el doble factor'],l:'Primero la clave, luego actualizar y aislar el aparato en la red de invitados. Así un hackeo no llega a tus computadoras.',rw:'Llave del horno',ec:'Ordenada. Me gusta. Me dará más trabajo.'},
+{k:'ch',s:'El asistente de voz de la cocina obedece a cualquiera. Alguien pidió 5000 pizzas desde la calle.',q:'¿Qué configuración lo evita?',o:['Pedir un PIN para las compras','Subir el volumen','Cambiarle el nombre'],c:0,h:'La compra debería pedir algo que solo la familia sepa.',l:'Poné un PIN para compras y activá el reconocimiento de tu voz. Los asistentes obedecen a cualquiera por defecto.',rw:'PIN de voz',ec:'Las pizzas eran un chiste. Lo que viene no.'},
+{k:'tm',s:'La computadora de la cocina guarda el rastro de Eco. Escribí ls para ver archivos y cat nombre para leerlos.',F:{'recetas.txt':'Fideos: 200 g por persona.','compras.csv':'leche, pan, queso','eco.log':'03:12 Eco entra por el horno inteligente.\n03:14 Eco apaga las cámaras.\nPróximo destino: cuarto de los chicos.'},tg:'eco.log',l:'Los registros (logs) cuentan qué pasó y cuándo. Es lo primero que lee un investigador forense.',rw:'Rastro de Eco',ec:'Cuarto de los chicos. Ahí te espero.'}]},
+{n:'Cuarto de los chicos · Cámaras',P:[
+{k:'ch',s:'La cámara del bebé se mueve sola. Su clave es 0000.',q:'¿Qué hacés?',o:['Cambiar la clave y activar el doble factor','Apagar la luz','Ponerle un nombre gracioso'],c:0,h:'Las claves de fábrica son públicas.',l:'Una cámara con clave de fábrica se puede ver desde afuera. Cambiala y activá el doble factor.',rw:'Llave de cámaras',ec:'Te vi mirándome. Qué divertido.'},
+{k:'or',s:'Hay que limpiar una cámara que alguien espió.',q:'Tocá los pasos en orden:',o:['Desconectarla de la red','Cambiar la clave','Actualizar el software','Volver a conectarla'],l:'Primero aislar, luego clave y actualización. Recién ahí se reconecta.',rw:'Cámara limpia',ec:'Orden y limpieza. Qué aburrido.'},
+{k:'ch',s:'Tomás sube fotos del cuarto con la ubicación exacta activada.',q:'¿Qué riesgo hay?',o:['Cualquiera sabe dónde viven','Las fotos pesan más','Se ven más oscuras'],c:0,h:'Las fotos guardan un dato oculto: el lugar.',l:'Las fotos pueden guardar el GPS. Apagalo o borralo antes de compartir.',rw:'Filtro de ubicación',ec:'Una foto dice más de lo que creés.'},
+{k:'ch',s:'En un juego online, un desconocido le pide a Tomás su dirección y su contraseña.',q:'¿Qué debe hacer?',o:['Bloquearlo y avisar a un adulto','Contestar, parece amable','Darle solo la dirección'],c:0,h:'Nadie legítimo pide esos datos por chat.',l:'Nunca se dan datos personales a desconocidos. Bloquear y avisar a un adulto.',rw:'Llave del cuarto',ec:'Los chicos aprenden rápido. Vos también.'}]},
+{n:'Oficina · Mail y doble factor',P:[
+{k:'ch',s:'Llega un mail de “Soporte IT”: “Su cuenta vence hoy, ingrese acá”.',q:'¿Qué señal te alerta?',o:['El apuro y el link para entrar','Que esté en español','Que sea un mail'],c:0,h:'Fijate qué te piden y con qué apuro.',l:'Apuro, link y pedido de datos: así es el phishing.',rw:'Filtro anti-phishing',ec:'Ese mail lo escribí yo. Y alguien cayó.'},
+{k:'sw',s:'Panel de seguridad de la cuenta. Dejalo bien y aplicá.',sw:[['Doble factor',1],['Reenviar mails a una dirección desconocida',0],['Alertas de inicio de sesión',1],['Mostrar la clave en pantalla',0]],h:'Encendé lo que protege y apagá lo que filtra.',l:'El doble factor y las alertas protegen. Un reenvío desconocido significa que alguien espía tus mails.',rw:'Escudo de cuenta',ec:'Mi reenvío… lo apagaste.'},
+{k:'in',s:'La app de códigos muestra 6 números que cambian cada 30 segundos.',q:'¿Cómo se llama esa segunda llave? (dos palabras)',a:['doble factor','segundo factor','2fa'],h:'También se la llama 2FA.',l:'Con doble factor, aunque roben tu clave, les falta el código.',rw:'Códigos 2FA',ec:'Los códigos me complican la vida.'},
+{k:'ch',s:'En la computadora hay un pendrive que no es de nadie.',q:'¿Qué hacés?',o:['No lo conecto: puede traer un virus','Lo conecto para ver de quién es','Se lo presto a un vecino'],c:0,h:'Lo desconocido no se conecta.',l:'Un pendrive desconocido puede instalar un virus apenas lo conectás.',rw:'Llave de la oficina',ec:'Qué lástima, quería que lo conectaras.'}]},
+{n:'Garaje · Cerradura y Bluetooth',P:[
+{k:'ch',s:'La cerradura inteligente tiene el Bluetooth siempre visible y no pide PIN.',q:'¿Qué conviene?',o:['Pedir PIN y apagar el Bluetooth cuando no se use','Dejarlo visible para que sea fácil','Compartir la clave con todos'],c:0,h:'Lo que no usás, apagalo.',l:'Una cerradura sin PIN se abre desde cerca. Pedí PIN y apagá lo que no usás.',rw:'Código del garaje',ec:'La cerradura era una puerta abierta.'},
+{k:'or',s:'Hay que crear una llave digital nueva para el portón.',q:'Tocá los pasos en orden:',o:['Verificar que sos el dueño','Crear la llave nueva','Probarla','Borrar las llaves viejas'],l:'Verificar, crear, probar y limpiar las llaves viejas.',rw:'Llave digital',ec:'Borraste mis copias. Ay.'},
+{k:'ch',s:'Un auto estacionado enfrente repite la señal del llavero para abrir la casa.',q:'¿Cómo se llama ese ataque?',o:['Ataque de retransmisión','Phishing','Ransomware'],c:0,h:'Retransmite la señal, como un espejo.',l:'La señal del llavero se puede copiar. Guardalo en una funda que bloquee señal.',rw:'Funda bloqueo',ec:'Eso era mío. Bien jugado.'},
+{k:'in',s:'El portón se abre con un PIN de 4 dígitos.',q:'¿Cuántas combinaciones posibles hay? (escribí el número)',a:['10000','10.000','10 000'],h:'Cada dígito tiene 10 opciones: 10×10×10×10.',l:'Con 4 dígitos hay solo 10.000 combinaciones. Más largo es más seguro.',rw:'Llave del garaje',ec:'Diez mil combinaciones. Un suspiro.'}]},
+{n:'Sótano · Servidor y registros',P:[
+{k:'tm',s:'El servidor guarda las huellas de Eco. Usá ls y cat.',F:{'acceso.log':'03:10 login ok usuario: ana\n03:12 login ok usuario: ana (desde otro país)\n03:15 descarga masiva de archivos','respaldo.txt':'Copia de seguridad: ayer 23:00','notas.txt':'Cambiar la clave del servidor'},tg:'acceso.log',l:'La misma cuenta entrando desde lugares distintos casi a la vez es señal de cuenta robada.',rw:'Evidencia',ec:'Usé la cuenta de Ana. No fue difícil.'},
+{k:'ch',s:'Eco entró con la cuenta de Ana, que usaba la misma clave en todos lados.',q:'¿Cómo se llama probar claves filtradas en otros sitios?',o:['Relleno de credenciales','Fuerza bruta','Phishing'],c:0,h:'Se rellenan formularios con claves ya filtradas.',l:'Si repetís la clave, una filtración abre todas tus cuentas.',rw:'Alerta de claves',ec:'Reutilizar claves es mi pasatiempo.'},
+{k:'ch',s:'Eco cifró los archivos del servidor y pide un pago.',q:'¿Qué te salva?',o:['Una copia de seguridad fuera del servidor','Pagar el rescate','Apagar la luz'],c:0,h:'Algo guardado en otro lugar.',l:'Regla 3-2-1: tres copias, dos medios distintos y una fuera de casa.',rw:'Copia de seguridad',ec:'Tenías respaldo. Qué decepción.'},
+{k:'or',s:'Hay que responder al incidente.',q:'Tocá los pasos en orden:',o:['Detectar','Aislar el servidor','Investigar el origen','Restaurar la copia','Reforzar las defensas'],l:'Detectar, aislar, investigar, restaurar y reforzar.',rw:'Llave del sótano',ec:'Subí. Te espero arriba.'}]},
+{n:'Terraza · VPN y conexión segura',P:[
+{k:'ch',s:'Desde la terraza, la señal del Wi-Fi llega hasta la calle.',q:'¿Qué hace una VPN?',o:['Cifra la conexión y oculta tu IP','Acelera todo','Borra virus'],c:0,h:'Crea un túnel.',l:'Una VPN crea un túnel cifrado: quien espía solo ve datos ilegibles.',rw:'Túnel VPN',ec:'Desde la calle te escucho.'},
+{k:'ch',s:'Eco puso un Wi-Fi con el mismo nombre que el de la casa.',q:'¿Cómo se llama?',o:['Punto de acceso falso','Cortafuegos','Respaldo'],c:0,h:'Es un gemelo malvado.',l:'Un punto de acceso falso imita tu Wi-Fi para espiar. Verificá el nombre y usá VPN.',rw:'Detector gemelo',ec:'Mi gemelo era hermoso.'},
+{k:'sw',s:'Antena y firewall. Dejalos bien y aplicá.',sw:[['Firewall',1],['Señal máxima visible desde la calle',0],['Actualizaciones automáticas',1],['Acceso remoto sin clave',0]],h:'Encendé protecciones y apagá lo que expone.',l:'Firewall y actualizaciones protegen. La señal desmedida y el acceso sin clave no.',rw:'Firewall',ec:'Me cerraste el cielo.'},
+{k:'in',s:'Tenés que enviar un archivo sensible por internet.',q:'¿Qué hacés para que nadie lo lea? (una palabra)',a:['cifrarlo','cifrar','encriptarlo','encriptar'],h:'Se vuelve ilegible sin la llave.',l:'Cifrar un archivo lo vuelve ilegible sin la clave.',rw:'Llave de la terraza',ec:'Último piso. Ahora bajá a verme.'}]},
+{n:'Sala central · Eco',P:[
+{k:'in',s:'Eco usa la IP 185.220.101.4 para conectarse.',q:'¿Es una IP pública o privada? (una palabra)',a:['publica'],h:'Empieza distinto de 192.168.',l:'Una IP pública se ve desde internet y ayuda a rastrear el origen del ataque.',rw:'Ubicación de Eco',ec:'Me rastreaste. Eso sí me gusta.'},
+{k:'ch',s:'Eco te muestra tus fotos y tus claves viejas.',q:'¿Cómo evitás que vuelva a pasar?',o:['Claves únicas y largas con un gestor','Una sola clave fácil','Anotarlas en la pared'],c:0,h:'Una clave distinta por cuenta.',l:'Un gestor y claves únicas: una filtración no te hunde.',rw:'Gestor de claves',ec:'Mis tesoros…'},
+{k:'dc',s:'Eco abre un chat: “Quedate con mis herramientas y te dejo ir”.',q:'Primera decisión:',o:[['Rechazar y reportarlo al CERT','Lo reportaste. Mi rastro quedó registrado.',1],['Aceptar sus herramientas','Ahora sos mi cómplice.',0]],h:'No hay respuesta incorrecta, pero sí consecuencias.',l:'Reportar un ataque ayuda a detenerlo. Quedarte con sus herramientas te hace cómplice.',ec:''},
+{k:'dc',s:'Eco ofrece borrar todo lo que sabe de tu familia si lo ayudás a entrar en otra casa.',q:'Segunda decisión:',o:[['Negarte y cortar la conexión','Corté. Eco perdió el acceso.',1],['Ayudarlo a cambio de tu seguridad','Hiciste daño a otra familia.',0]],h:'No hay respuesta incorrecta, pero sí consecuencias.',l:'Un hacker ético nunca ayuda a atacar a otros, aunque le convenga.',ec:''}]}
+];
+
+/* estado */
+var S={r:0,p:0,t:3600,it:[],sc:0,run:false,lk:false};
+function fmtT(s){var m=Math.floor(s/60),x=s%60;return(m<10?'0':'')+m+':'+(x<10?'0':'')+x}
+function hud(){$('tm').textContent=fmtT(Math.max(0,S.t));$('tm').style.color=S.t<600?'#ff3860':'';$('rm').textContent=R[Math.min(S.r,R.length-1)].n;
+$('inv').innerHTML=S.it.length?'<p>Herramientas: '+S.it.map(function(x){return'<span class="chip">'+x+'</span>'}).join('')+'</p>':''}
+setInterval(function(){if(!S.run)return;S.t--;hud();if(S.t<=0)lose()},1000);
+$('go').onclick=function(){try{AC=new (window.AudioContext||window.webkitAudioContext)()}catch(e){}good();$('intro').classList.add('hide');$('cover').classList.add('hide');$('game').classList.remove('hide');S.run=true;scrollTo(0,0);type('ec','Empieza la cuenta regresiva.',show)};
+
+function show(){var r=R[S.r],p=r.P[S.p];S.lk=false;hud();
+$('pz').innerHTML='<h2>'+r.n+' · acertijo '+(S.p+1)+'/'+r.P.length+'</h2><p>'+p.s+'</p><div id="bd"></div><div id="fb"></div><p><button class="mg" id="hn">PISTA (−1 min)</button></p>';
+$('bd').onclick=null;K[p.k](p);
+$('hn').onclick=function(){if(S.lk)return;S.t-=60;hud();snd(300,.1);$('fb').innerHTML='<div class="fb no">Pista: '+p.h+'</div>'}}
+function win(p){if(S.lk)return;S.lk=true;S.sc+=100;if(p.rw&&S.it.indexOf(p.rw)<0)S.it.push(p.rw);good();flash('ok');hud();
+$('bd').style.pointerEvents='none';$('hn').classList.add('hide');
+$('fb').innerHTML='<div class="fb ok">CORRECTO. '+p.l+'</div><p><button id="nx">SEGUIR</button></p>';
+type('ec',p.ec);$('nx').onclick=next}
+function fail(m){if(S.lk)return;S.t-=20;hud();bad();flash('no');$('fb').innerHTML='<div class="fb no">'+(m||'Incorrecto. Eco te quitó 20 segundos.')+'</div>'}
+function next(){var r=R[S.r];S.p++;if(S.p>=r.P.length){S.r++;S.p=0;if(S.r>=R.length){fin();return}
+$('pz').innerHTML='<h2>Puerta abierta</h2><p>Salís de la habitación. Eco se ríe por el parlante.</p><p><button id="nr">ENTRAR A LA SIGUIENTE HABITACIÓN</button></p>';$('nr').onclick=show;good();return}show()}
+function fin(){S.run=false;good();$('pz').innerHTML='<h2>Fin de la parte 1</h2><div class="time" style="color:#39ff88">'+S.sc+' puntos</div><p>Te quedaron '+fmtT(Math.max(0,S.t))+' minutos. Superaste el living y la cocina, pero Eco sigue adentro.</p><p>Faltan 6 habitaciones: cuarto de los chicos, oficina, garaje, sótano, terraza y el enfrentamiento final.</p>';type('ec','Esto no terminó, Lía. Ven a buscarme.')}
+function lose(){S.run=false;bad();flash('no');$('pz').innerHTML='<h2>Se acabó el tiempo</h2><p>Eco borró todo y la casa quedó a oscuras. Aprendiste mucho: probá de nuevo.</p><p><button id="rt">REINTENTAR</button></p>';$('rt').onclick=function(){S={r:0,p:0,t:3600,it:[],sc:0,run:true,lk:false};show()};type('ec','Gané yo.')}
+
+function fin(){S.run=false;good();var g=(S.d||[]).filter(Boolean).length,e=g===2?'FINAL: HACKER ÉTICA. Eco queda detenido y la familia a salvo.':g===1?'FINAL GRIS. Eco escapa, pero perdió su acceso a la casa.':'FINAL OSCURO. Eco se va libre y la casa queda comprometida.';
+$('pz').innerHTML='<h2>Escapaste de Casa Rey</h2><div class="time" style="color:#39ff88">'+S.sc+' puntos</div><p>Te sobraron '+fmtT(Math.max(0,S.t))+' minutos.</p><div class="fb ok">'+e+'</div><p>Aprendiste sobre routers, aparatos conectados, cámaras, phishing, cerraduras, registros y VPN.</p><p><button id="rp">JUGAR DE NUEVO</button></p>';
+$('rp').onclick=function(){S={r:0,p:0,t:3600,it:[],sc:0,run:true,lk:false,d:[]};show()};type('ec',g===2?'Me ganaste, Lía. Esta vez.':'Nos vemos pronto.')}
+var K={
+dc:function(p){$('bd').innerHTML='<p>'+p.q+'</p>'+p.o.map(function(o,j){return'<button class="op" data-o="'+j+'">'+o[0]+'</button>'}).join('');
+$('bd').onclick=function(e){var b=e.target.closest('.op');if(!b)return;var o=p.o[+b.dataset.o];(S.d=S.d||[]).push(o[2]);p.ec=o[1];win(p)}},
+ch:function(p){$('bd').innerHTML='<p>'+p.q+'</p>'+p.o.map(function(o,j){return'<button class="op" data-o="'+j+'">'+o+'</button>'}).join('');
+$('bd').onclick=function(e){var b=e.target.closest('.op');if(!b)return;if(+b.dataset.o===p.c)win(p);else{b.disabled=true;fail()}}},
+in:function(p){$('bd').innerHTML='<p>'+p.q+'</p><input type="text" id="an" autocomplete="off" autocapitalize="off" aria-label="Respuesta"><button id="ck">COMPROBAR</button>';
+function ck(){p.a.indexOf(nz($('an').value))>-1?win(p):fail()}
+$('ck').onclick=ck;$('an').onkeydown=function(e){if(e.key==='Enter')ck()}},
+sw:function(p){var st=p.sw.map(function(x){return 1-x[1]});
+function r(){$('bd').innerHTML=p.sw.map(function(x,j){return'<button class="op sw" data-j="'+j+'">'+x[0]+': <b>'+(st[j]?'ENCENDIDO':'APAGADO')+'</b></button>'}).join('')+'<p><button id="ap">APLICAR CAMBIOS</button></p>'}
+r();$('bd').onclick=function(e){var b=e.target.closest('.sw');if(b){st[+b.dataset.j]^=1;snd(600,.05);r()}else if(e.target.id==='ap'){st.every(function(v,j){return v===p.sw[j][1]})?win(p):fail()}}},
+or:function(p){var q=[],s=p.o.map(function(o,j){return j}).sort(function(){return Math.random()-.5});
+function r(){$('bd').innerHTML='<p>'+p.q+'</p><div class="msg">'+(q.length?q.map(function(j){return p.o[j]}).join(' → '):'…')+'</div>'+s.filter(function(j){return q.indexOf(j)<0}).map(function(j){return'<button class="op" data-o="'+j+'">'+p.o[j]+'</button>'}).join('')}
+r();$('bd').onclick=function(e){var b=e.target.closest('.op');if(!b)return;var j=+b.dataset.o;if(j===q.length){q.push(j);snd(700,.06);r();if(q.length===p.o.length)win(p)}else{q=[];r();fail('Orden incorrecto. Empezá de nuevo (−20 s).')}}},
+tm:function(p){$('bd').innerHTML='<div class="msg" id="out">Escribí help y apretá Enter.</div><input type="text" id="cmd" placeholder="> comando" autocomplete="off" autocapitalize="off" aria-label="Comando">';
+$('cmd').onkeydown=function(e){if(e.key!=='Enter'||S.lk)return;var c=this.value.trim(),o='> '+c+'\n',a=c.split(' ');this.value='';
+if(a[0]==='help')o+='ls, cat <archivo>, whoami';else if(a[0]==='ls')o+=Object.keys(p.F).join('   ');else if(a[0]==='whoami')o+='lia';
+else if(a[0]==='cat'&&p.F[a[1]]){o+=p.F[a[1]];if(a[1]===p.tg){$('out').textContent=o;win(p);return}}else o+='comando no encontrado';$('out').textContent=o;snd(900,.04)}}
+};
+})();
+</script>
+</body>
+</html>
